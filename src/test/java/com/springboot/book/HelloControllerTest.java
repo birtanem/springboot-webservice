@@ -11,6 +11,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.hamcrest.Matchers.is;
 
 @RunWith(SpringRunner.class)    //스프링부트테스트와 JUnit사이의 연결자 역할.
 @WebMvcTest(controllers = HelloController.class)
@@ -31,5 +32,18 @@ public class HelloControllerTest {
         mvc.perform(get("/hello"))  //MockMvc통해 /hello주소로 http get요청. 체이닝지원
                 .andExpect(status().isOk()) //mvc.perform에 대한 결과 검증. HTTP Header의 Status검증. isOk: 200인지 아닌지 검증.
                 .andExpect(content().string(hello));    //응답 본문의 내용을 검증한다. Controller에서 리턴된 "hello"가 맞는지 검증.
+    }
+
+    @Test
+    public void helloDto가_리턴된다() throws Exception{
+        String name = "hello";
+        int amount = 1000;
+
+        mvc.perform(get("/hello/dto").param("name",name).param("amount",String.valueOf(amount)))
+                //param은 String만 허용 됨. 숫자,날짜는 문자열로 변경할 것.
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.name",is(name)))
+                .andExpect(jsonPath("$.amount",is(amount)));
+                //jsonPath : JSON응답값을 필드별로 검증하는 메소드. $를 기준으로 필드명을 명시함.
     }
 }
