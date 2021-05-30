@@ -20,11 +20,13 @@ import java.util.List;
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class PostsApiControllerTest {
+
     @LocalServerPort
     private int port;
 
     @Autowired
     private TestRestTemplate restTemplate;
+    //@WebMvcTest의 경우 JPA기능이 작동하지 않으므로 JPA기능까지 한번에 테스트 할 때는 @SpringBootTest, TestRestTemplate사용하기.
 
     @Autowired
     private PostsRepository postsRepository;
