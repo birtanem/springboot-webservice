@@ -1,5 +1,6 @@
 package com.springboot.book.domain.posts;
 
+import com.springboot.book.domain.BaseTimeEntity;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,7 +19,7 @@ import javax.persistence.*;
 // setter없이 db에 데이터 삽입은 생성자를 통해 이뤄지며 생성자 대신 @Builder 클래스를 사용하기도 한다.
 @NoArgsConstructor //기본 생성자 자동추가.
 @Entity //테이블과 링크되는 클래스임을 나타냄.
-public class Posts {
+public class Posts extends BaseTimeEntity {
 
     @Id //해당 테이블의 PK값.
     @GeneratedValue(strategy = GenerationType.IDENTITY) //PK의 생성규칙을 나타냄. GenerationType.IDENTITY를 추가해야 auto_increment가 적용된다.
