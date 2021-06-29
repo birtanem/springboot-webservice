@@ -1,6 +1,7 @@
 package com.springboot.book.web;
 
 
+import com.springboot.book.config.auth.LoginUser;
 import com.springboot.book.config.auth.dto.SessionUser;
 import com.springboot.book.service.posts.PostsService;
 import com.springboot.book.web.dto.PostsResponseDto;
@@ -20,9 +21,9 @@ public class IndexController {
     private final HttpSession httpSession;
 
     @GetMapping("/")//index.mustache url매핑
-    public String index(Model model){
+    public String index(Model model, @LoginUser SessionUser user){
         model.addAttribute("posts",postsService.findAllDesc());
-        SessionUser user = (SessionUser) httpSession.getAttribute("user");
+//        SessionUser user = (SessionUser) httpSession.getAttribute("user");
 
         if( user != null){
             model.addAttribute("userName", user.getName());
