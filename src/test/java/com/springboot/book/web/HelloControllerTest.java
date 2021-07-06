@@ -1,10 +1,14 @@
-package com.springboot.book;
+package com.springboot.book.web;
 
+import com.springboot.book.config.auth.SecurityConfig;
 import com.springboot.book.web.HelloController;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.FilterType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -14,7 +18,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.hamcrest.Matchers.is;
 
 @RunWith(SpringRunner.class)    //스프링부트테스트와 JUnit사이의 연결자 역할.
-@WebMvcTest(controllers = HelloController.class)
+@WebMvcTest(controllers = HelloController.class,
+            excludeFilters = {
+            @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = SecurityConfig.class)
+})
     //Web(Spring MVC)에 집중할 수 있는 어노테이션.
     //선언할 경우 @Controller, @ControllerAdvice등을 사용할 수 있으나
     //@Service, @Component, @Repository등은 사용할 수 없다.
@@ -25,6 +32,7 @@ public class HelloControllerTest {
     private MockMvc mvc;
         //웹API를 테스트 할 때 사용, 스프링MVC 테스트의 시작점, 이 클래스를 통해 http get, post등에 대한 api 테스트 가능.
 
+    @WithMockUser(roles = "USER")
     @Test
     public void hello_가리턴된다() throws Exception{
         String hello = "hello";

@@ -1,4 +1,4 @@
-package com.springboot.book;
+package com.springboot.book.web;
 
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
